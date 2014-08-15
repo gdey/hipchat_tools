@@ -17,6 +17,7 @@ type clientStruct struct {
 	Room    string
 	Name    string
 	Color   string
+	Notify  bool
 	ReadCh  chan string
 	QuitCh  chan struct{}
 }
@@ -28,7 +29,7 @@ func (s *clientStruct) PostMessage(msg string) {
 		Message:       msg,
 		Color:         s.Color,
 		MessageFormat: hipchat.FormatText,
-		Notify:        true,
+		Notify:        s.Notify,
 	}
 	s.HipChat.PostMessage(req)
 	fmt.Print(msg)
@@ -58,6 +59,7 @@ func application(c *cli.Context) {
 		HipChat: hipchat.Client{AuthToken: c.String("auth")},
 		Room:    c.String("room"),
 		Name:    c.String("from"),
+		Notify:  c.Bool("notify"),
 		Color:   strings.ToLower(c.String("color")),
 		ReadCh:  make(chan string),
 		QuitCh:  make(chan struct{}),
@@ -86,8 +88,11 @@ func application(c *cli.Context) {
 
 }
 
+var version string
+
 func main() {
 	app := cli.NewApp()
+	app.Version = version
 	app.Name = "hc-tee"
 	//  The tee utility copies standard input to standard output, making a copy in zero or more files.  The output is unbuffered.
 	app.Usage = "The hc-tee utility copies standard input to the room in hipchat. The output is buffered. The system buffers 3 seconds of output before sending the message to hipchat. This is to ensure the rate of messages going to hipchat is within the 100 messages per 5 minutes."
@@ -113,6 +118,11 @@ func main() {
 			Usage:  "The color to use. Defaults to 'green'. Valid colors are: ['yello','red','green','purple','gray','random'] ",
 			EnvVar: "HIPCHAT_FROM",
 			Value:  hipchat.ColorGreen,
+		},
+		cli.BoolFlag{
+			Name:   "notify,n",
+			Usage:  "Notify the room",
+			EnvVar: "HIPCHAT_NOTIFY",
 		},
 	}
 	app.Action = application
