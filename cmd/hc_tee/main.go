@@ -111,7 +111,7 @@ func main() {
 		cli.StringFlag{
 			Name:   "color,c",
 			Usage:  "The color to use. Defaults to 'green'. Valid colors are: ['yello','red','green','purple','gray','random'] ",
-			EnvVar: "HIPCHAT_FROM",
+			EnvVar: "HIPCHAT_COLOR",
 			Value:  hipchat.ColorGreen,
 		},
 	}
