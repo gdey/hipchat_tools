@@ -94,12 +94,12 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:   "auth,token,t",
-			Usage:  "The auth token to use for Hipchat.",
+			Usage:  "The auth token to use for Hipchat",
 			EnvVar: "HIPCHAT_AUTH",
 		},
 		cli.StringFlag{
 			Name:   "room,r",
-			Usage:  "The room id to which to post the messages to.",
+			Usage:  "The room id to which to post the messages",
 			EnvVar: "HIPCHAT_ROOM",
 		},
 		cli.StringFlag{
@@ -110,7 +110,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:   "color,c",
-			Usage:  "The color to use. Defaults to 'green'. Valid colors are: ['yello','red','green','purple','gray','random'] ",
+			Usage:  "The color to use. Defaults to 'green'. Valid colors are: ['yellow','red','green','purple','gray','random']",
 			EnvVar: "HIPCHAT_COLOR",
 			Value:  hipchat.ColorGreen,
 		},
