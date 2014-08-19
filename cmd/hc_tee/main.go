@@ -24,14 +24,14 @@ type clientStruct struct {
 
 func (s *clientStruct) PostMessage(msg string) {
 	req := hipchat.MessageRequest{
-		RoomId:        s.Room,
 		From:          s.Name,
 		Message:       msg,
-		Color:         s.Color,
+		Color:         hipchat.Color(s.Color),
 		MessageFormat: hipchat.FormatText,
 		Notify:        s.Notify,
 	}
-	s.HipChat.PostMessage(req)
+	room := s.HipChat.Room(s.Room)
+	room.PostMessage(req)
 	fmt.Print(msg)
 }
 
