@@ -7,6 +7,8 @@ const (
 	FormatHTML format = format("html")
 )
 
+const MaxMessageSize = 10000
+
 type Message struct {
 	Message       string `json:"message"`
 	MessageFormat format `json:"message_format"`

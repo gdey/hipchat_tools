@@ -18,13 +18,21 @@ type roomMessage struct {
 	Color color `json:"color"`
 }
 
-func GetRoom(id string) (*room, error) {
+func (c *client) GetRoom(id string) (*room, error) {
+	_, err := c.Get(parts{"room"})
+	return
 }
-func CreateRoom(room Room) (*room, error) {
+
+func (c *client) CreateRoom(room Room) (*room, error) {
+	_, err := c.Post(parts{"room"}, room)
 }
-func UpdateRoom(room Room) (*room, error) {
+
+func (c *client) UpdateRoom(room Room) (*room, error) {
+	_, err := c.Put(parts{"room", room.Name}, room)
 }
-func DeleteRoom(room Room) error {
+
+func (c *client) DeleteRoom(rid string) error {
+	_, err := c.Delete(parts{"room", rid})
 }
 
 func (r *room) Post(msg Message) error {
@@ -33,15 +41,19 @@ func (r *room) Post(msg Message) error {
 	}
 	return r.PostWithColor(msg, r.Color)
 }
+
 func (r *room) PostWithColor(msg Message, c color) error {
 	if r == nil {
-		return nil
+		return nip
+	}
+	if length(msg.Message) >= MaxMessageSize {
+		return error("Message too large.")
 	}
 	rmsg := roomMessage{
 		Message: msg,
 		Color:   c,
 	}
-	_, err := r.client.send(parts{"room", r.id, "notification"}, rmsg)
+	_, err := r.client.Post(parts{"room", r.id, "notification"}, rmsg)
 	if err != nil {
 		return err
 	}
