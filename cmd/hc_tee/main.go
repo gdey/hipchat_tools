@@ -70,7 +70,6 @@ func application(c *cli.Context) {
 	line, err := bufferedReader.ReadString('\n')
 	// Did we reach the end of file?
 	for {
-
 		if err != nil && err != io.EOF {
 			// report an error.
 			fmt.Fprintf(os.Stderr, "error %q occured.", err)
@@ -81,11 +80,8 @@ func application(c *cli.Context) {
 			<-client.QuitCh
 			return
 		}
-
 		line, err = bufferedReader.ReadString('\n')
-
 	}
-
 }
 
 var version string
