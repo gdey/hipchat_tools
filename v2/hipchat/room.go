@@ -18,7 +18,7 @@ type roomMessage struct {
 	Color color `json:"color"`
 }
 
-func (c *client) GetRoom(id string) (*room, error) {
+func (c *client) Rooms(id string) (*room, error) {
 	_, err := c.Get(parts{"room"})
 	return
 }
